@@ -18,7 +18,7 @@ print("Python gcd function gcd(", a,",", b, ") =",gcd(a,b))
 print("Euclidean algorithm gcd(", a,",", b, ") =",tla.euclidean_gcd(a,b))
 print("")
 
-print("  --- ----------------------- *** ----------------------- ---  ")
+print("  --- ----------------------- *** ----------------------- ---   ")
 print(" Extended Euclidean Algorithm to find GCD and Bézout's identity ")
 print("")
 a=462
@@ -48,6 +48,17 @@ newton_result = tla.newton(f, f_derivative, x0, eps, kmax)
 scipy_result = optimize.root(f, x0)
 
 print("Test function is (x^2 - 20*x + 5), first guess is", x0)
-print("Newton's method for finding root =",newton_result, "f(newton root)=", f(newton_result))
-print("Scipy function for finding roots =",scipy_result.x[0], "f(scipy root)= ", f(scipy_result.x[0]))
+print("Newton's method root =",newton_result, ", f(newton root)=", f(newton_result))
+print("Scipy function roots =",scipy_result.x[0], ", f(scipy root)= ", f(scipy_result.x[0]))
 print("")
+
+print("  --- ----------------------- *** ----------------------- ---  ")
+print("           Russian Peasant Multiplication algorithm            ")
+print("")
+a=462
+b=1071
+result = tla.rpmul(a,b)
+print("Russian Peasant Multiplication (", a,",", b, ") =",result)
+print("Correct is:", a*b)
+print("")
+

@@ -110,3 +110,28 @@ def newton(f, f_derivative, x0, eps, kmax):
         
 
     return x
+
+
+def rpmul(a,b):
+    """Russian peasant multiplication.
+    
+    Simple multiplication on shifters, taken from "Ten Little Algorithms" by
+    Jason Sachs.
+
+    Args:
+        a (int): the first variable,
+        b (int): the second vairable.
+
+    Returns:
+        x (int): result of multiplication a*b.
+
+    """
+    result = 0
+    while b != 0:
+        if b & 1:
+            result += a
+        b >>= 1
+        a <<= 1
+        
+    return result
+
