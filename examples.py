@@ -53,12 +53,16 @@ print("Scipy function roots =",scipy_result.x[0], ", f(scipy root)= ", f(scipy_r
 print("")
 
 print("  --- ----------------------- *** ----------------------- ---  ")
-print("           Russian Peasant Multiplication algorithm            ")
+print("                  Russian Peasant algorithm                    ")
 print("")
 a=462
 b=1071
-result = tla.rpmul(a,b)
-print("Russian Peasant Multiplication (", a,",", b, ") =",result)
+mul_result = tla.rpmul(a,b)
+print("Russian Peasant Multiplication ", a,"*", b, "=",mul_result)
 print("Correct is:", a*b)
+a=2
+b=23
+exp_result = tla.rpexp(a,b)
+print("Russian Peasant Exponentian ", a,"**", b, "=",exp_result)
+print("Correct is:", a**b)
 print("")
-

@@ -135,3 +135,24 @@ def rpmul(a,b):
         
     return result
 
+def rpexp(a,b):
+    """Russian peasant exponention.
+    
+    Exponention based on Russian peasant multiplication algorithm, 
+    taken from "Ten Little Algorithms" by Jason Sachs.
+
+    Args:
+        a (int): the base,
+        b (int): the exponent.
+
+    Returns:
+        x (int): the b power of a, a**b.
+
+    """
+    result = 1
+    while b != 0:
+        if b & 1:
+            result *= a
+        b >>= 1
+        a *= a
+    return result
