@@ -156,3 +156,51 @@ def rpexp(a,b):
         b >>= 1
         a *= a
     return result
+
+def sp_iir_lpf(cutoff = 0.25, smpl_f = 1):
+    """Single-pole IIR low-pass filter.
+    
+    A single-pole IIR filter design y += alpha * (x-y), 
+    taken from "Ten Little Algorithms" by Jason Sachs.
+
+    Args:
+        cutoff (float): the cutoff frequency, can bi in proportion of sampling
+                        frequency or in hertz if sampling frequency is given as 
+                        second argument
+        smpl_f (float): sampling frequency in hertz (optional).
+
+    Returns:
+        alpha (float):  filter coefficient alpha,
+        h (ndarray):    the frequency response as complex numbers,
+        w (ndarray):    the frequencies at which h was computed 
+                        in proportion of pi
+
+    """
+    import numpy as np
+    from scipy import signal
+    
+    def do_filter(x, alpha, x0 = None):
+        y = []
+        yk = x[0] if x0 is None else x0
+        for k in range(len(x)):
+            yk += alpha * (x[k]-yk)
+            y.append(yk)
+        return y
+    
+    # calculate coefficient
+    dt = 1/smpl_f
+    tau = 1 / cutoff
+    alpha = dt/tau
+    
+    # make test impulse signal 
+    smpls = np.zeros(1000)
+    smpls[0] = 1
+    filter_result = do_filter(smpls, alpha)
+    
+    # get the frequency and phase response with help of scipy
+    w, h = signal.freqz(filter_result)
+    # change radians to proportions of pi
+    for i in range(len(w)):
+        w[i] = w[i]/np.pi
+    
+    return alpha, h, w

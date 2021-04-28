@@ -66,3 +66,39 @@ exp_result = tla.rpexp(a,b)
 print("Russian Peasant Exponentian ", a,"**", b, "=",exp_result)
 print("Correct is:", a**b)
 print("")
+
+
+print("  --- ----------------------- *** ----------------------- ---  ")
+print("                The Single-Pole Low-Pass Filter                ")
+print("")
+
+import matplotlib.pyplot as plt
+from matplotlib import ticker
+import numpy as np
+
+cutoff_freq = 25
+smpl_freq = 100
+
+alpha, h, w = tla.sp_iir_lpf(cutoff_freq, smpl_freq)
+
+# Plot example is from scipy.signal.freqz function description
+fig, ax1 = plt.subplots()
+ax1.set_title('SP IIR filter frequency responses with cutoff frequency = '+str(cutoff_freq/smpl_freq))
+    
+ax1.plot(w, 20 * np.log10(abs(h)), 'b')
+ax1.set_ylabel('Amplitude [dB]', color='b')
+ax1.set_xlabel('Frequency [rad/sample]')
+
+ax2 = ax1.twinx()
+angles = np.unwrap(np.angle(h))
+ax2.plot(w, angles, 'g')
+ax2.set_ylabel('Angle (radians)', color='g')
+ax2.grid()
+ax2.axis('tight')
+ax2.xaxis.set_major_formatter(ticker.FormatStrFormatter('%g $\pi$'))
+ax2.xaxis.set_major_locator(ticker.MultipleLocator(base=0.25))
+plt.show()
+
+print("The single-pole IIR low-pass filter with cutoff frequency", cutoff_freq,"\nhas coefficient alpha =",alpha)
+print("See the frequency response on the figure.")
+print("")
