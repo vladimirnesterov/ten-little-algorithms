@@ -179,26 +179,37 @@ def sp_iir_lpf(cutoff = 0.25, smpl_f = 1):
     import numpy as np
     from scipy import signal
     
-    def do_filter(x, alpha, x0 = None):
-        y = []
-        yk = x[0] if x0 is None else x0
-        for k in range(len(x)):
-            yk += alpha * (x[k]-yk)
-            y.append(yk)
-        return y
-    
     # calculate coefficient
     dt = 1/smpl_f
     tau = 1 / cutoff
     alpha = dt/tau
     
+    '''
+    # do filtring and get impulse response to estimate parameters
+    def do_filter(x, alpha, x0 = None):
+        y = np.zeros_like(x)
+        yk = x[0] if x0 is None else x0
+        for k in range(len(x)):
+            yk += alpha * (x[k]-yk)
+            y[k] = yk
+        return y
     # make test impulse signal 
     smpls = np.zeros(1000)
     smpls[0] = 1
+    # filter and get impulse response
     filter_result = do_filter(smpls, alpha)
+    # get the filter parameters
+    w, h = signal.freqz(filter_result)
+    '''
     
     # get the frequency and phase response with help of scipy
-    w, h = signal.freqz(filter_result)
+    '''
+    The function of the filter: y[n]=αx[n]+(1−α)y[n−1]
+    The transfer function is H(z)=α / 1-(1−α)z−1
+    '''
+    b = alpha
+    a = [1,-(1-alpha)]
+    w, h = signal.freqz(b,a)
     # change radians to proportions of pi
     for i in range(len(w)):
         w[i] = w[i]/np.pi

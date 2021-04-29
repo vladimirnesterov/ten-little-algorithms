@@ -63,7 +63,7 @@ print("Correct is:", a*b)
 a=2
 b=23
 exp_result = tla.rpexp(a,b)
-print("Russian Peasant Exponentian ", a,"**", b, "=",exp_result)
+print("Russian Peasant Exponentiation ", a,"**", b, "=",exp_result)
 print("Correct is:", a**b)
 print("")
 
@@ -76,8 +76,8 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 import numpy as np
 
-cutoff_freq = 25
-smpl_freq = 100
+cutoff_freq = 2500
+smpl_freq = 8000
 
 alpha, h, w = tla.sp_iir_lpf(cutoff_freq, smpl_freq)
 
