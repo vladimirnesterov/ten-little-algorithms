@@ -184,8 +184,9 @@ def sp_iir_lpf(cutoff = 0.25, smpl_f = 1):
     tau = 1 / cutoff
     alpha = dt/tau
     
-    '''
+    
     # do filtring and get impulse response to estimate parameters
+    '''
     def do_filter(x, alpha, x0 = None):
         y = np.zeros_like(x)
         yk = x[0] if x0 is None else x0
@@ -215,3 +216,26 @@ def sp_iir_lpf(cutoff = 0.25, smpl_f = 1):
         w[i] = w[i]/np.pi
     
     return alpha, h, w
+
+def welford(x_array):
+    """Welford's method.
+    
+    Mean and variance calculation using Welford's method, 
+    taken from part 3 of "Ten Little Algorithms" by Jason Sachs.
+
+    Args:
+        x_array (array): sample sequence.
+
+    Returns:
+        M, S: mean and variance of x_array.
+
+    """
+    k = 0 
+    M = 0
+    S = 0
+    for x in x_array:
+        k += 1
+        Mnext = M + (x - M) / k
+        S = S + (x - M)*(x - Mnext)
+        M = Mnext
+    return (M, S/(k-1))

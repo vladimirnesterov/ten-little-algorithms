@@ -76,14 +76,14 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 import numpy as np
 
-cutoff_freq = 2500
+cutoff_freq = 2000
 smpl_freq = 8000
 
 alpha, h, w = tla.sp_iir_lpf(cutoff_freq, smpl_freq)
 
 # Plot example is from scipy.signal.freqz function description
 fig, ax1 = plt.subplots()
-ax1.set_title('SP IIR filter frequency responses with cutoff frequency = '+str(cutoff_freq/smpl_freq))
+ax1.set_title('SP IIR filter frequency responses with cutoff frequency = '+str(cutoff_freq/(2*smpl_freq))+'$\pi$')
     
 ax1.plot(w, 20 * np.log10(abs(h)), 'b')
 ax1.set_ylabel('Amplitude [dB]', color='b')
@@ -101,4 +101,16 @@ plt.show()
 
 print("The single-pole IIR low-pass filter with cutoff frequency", cutoff_freq,"\nhas coefficient alpha =",alpha)
 print("See the frequency response on the figure.")
+print("")
+
+
+print("  --- ----------------------- *** ----------------------- ---  ")
+print("                Statistic and Welford's method                 ")
+print("")
+import test_signals as ts
+w_mean, w_var = tla.welford(ts.noise_signal)
+np_mean = np.mean(ts.noise_signal)
+np_var = np.var(ts.noise_signal, ddof=1)
+print("Welford:", w_mean, w_var)
+print("numpy:  ", np_mean, np_var)
 print("")
